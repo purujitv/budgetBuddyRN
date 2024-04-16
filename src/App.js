@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import RootNavigator from './navigation/RootNavigator'
+import { COLORS } from './constants'
 
 export default function App() {
   return (
@@ -12,6 +13,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container:{
-    flex:1
+    flex:1, 
   }
 })

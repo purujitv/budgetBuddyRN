@@ -1,0 +1,6 @@
+ project.ext.react = [
+   enableHermes: true,
+    cliPath: "../../../../node_modules/react-native/cli.js",
+   composeSourceMapsPath: "../../node_modules/react-native/scripts/compose-source-maps.js",
+  hermesCommand: '../../../../node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc',
+]
