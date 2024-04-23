@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    padding: 20,
+    padding: 25,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',

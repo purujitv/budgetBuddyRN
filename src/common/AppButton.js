@@ -3,10 +3,10 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
 import {COLORS, FONTS} from '../constants';
+import { horizontalScale, moderateScale, verticalScale } from '../utlis/Metrics';
 
 export default function AppButton({
   fontSize,
@@ -24,8 +24,8 @@ export default function AppButton({
         activeOpacity={0.9}
         style={{
           ...styles.button,
-          height: height ? height : 44,
-          width: width ? width : 155,
+          height: height ? height : verticalScale(44),
+          width: width ? width : horizontalScale(155),
           backgroundColor: backgroundColor,
           borderWidth: borderWidth,
         }}
@@ -33,7 +33,8 @@ export default function AppButton({
         <Text
           style={{
             ...styles.btnText,
-            fontSize: fontSize ? fontSize : 17,
+            lineHeight:moderateScale(20),
+            fontSize: fontSize ? fontSize : moderateScale(17),
             color: color,
           }}>
           {title}
@@ -45,8 +46,8 @@ export default function AppButton({
 
 const styles = StyleSheet.create({
   button: {
-    padding: 10,
-    borderRadius: 8,
+    padding: moderateScale(10),
+    borderRadius: moderateScale(8),
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: COLORS.WHITE,

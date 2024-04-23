@@ -1,8 +1,14 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS, FONTS } from '../constants';
-import { moderateScale } from '../utlis/Metrics';
-import { IMAGES } from '../constants'; // Assuming you have an IMAGES constant for your eye icons
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React, {useState} from 'react';
+import {COLORS, FONTS} from '../constants';
+import {moderateScale} from '../utlis/Metrics';
+import {IMAGES} from '../constants'; // Assuming you have an IMAGES constant for your eye icons
 
 export default function AppTextInput({
   placeholder,
@@ -10,6 +16,7 @@ export default function AppTextInput({
   value,
   onChangeText,
   placeholderTextColor,
+  onBlur,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,12 +33,12 @@ export default function AppTextInput({
         secureTextEntry={!showPassword ? secureTextEntry : false}
         value={value}
         onChangeText={onChangeText}
+        onBlur={onBlur}
       />
       {secureTextEntry && (
         <TouchableOpacity
           style={styles.toggleButton}
-          onPress={togglePasswordVisibility}
-        >
+          onPress={togglePasswordVisibility}>
           <Image
             source={showPassword ? IMAGES.HIDE : IMAGES.VIEW}
             style={styles.toggleIcon}

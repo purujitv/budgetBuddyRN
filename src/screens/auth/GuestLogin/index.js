@@ -1,10 +1,11 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 import React from 'react';
 import styles from '../styles';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS, FONTS, IMAGES} from '../../../constants';
 import AppButton from '../../../common/AppButton';
 import {moderateScale, verticalScale} from '../../../utlis/Metrics';
+const {width, height} = Dimensions.get('window');
 
 export default function Login() {
   const navigation = useNavigation();
@@ -12,14 +13,14 @@ export default function Login() {
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Image
         source={IMAGES.BACKGROUND}
-        style={{ ...StyleSheet.absoluteFillObject }}
+        resizeMode="cover"
+        style={{...StyleSheet.absoluteFillObject, width: width, height: height}}
       />
-      <View
-       style={styles.overlay}>
+      <View style={styles.overlay}>
         <View
           style={{
             backgroundColor: 'rgba(0, 0, 0, 0.82)',
-            padding: 20,
+            padding: 14,
             borderRadius: 20,
             rowGap: 20,
           }}>
@@ -48,13 +49,13 @@ export default function Login() {
             style={{
               paddingTop: verticalScale(15),
               paddingBottom: verticalScale(10),
+              alignItems: 'center',
             }}>
             <AppButton
               title={'Continue'}
-              width={316}
               backgroundColor={COLORS.PRIMARY}
               color={COLORS.WHITE}
-              onPress={() => navigation.navigate("Dashboard", {Screen:'Home'})}
+              onPress={() => navigation.navigate('Dashboard', {Screen: 'Home'})}
             />
           </View>
         </View>
