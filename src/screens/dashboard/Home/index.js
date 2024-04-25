@@ -7,8 +7,10 @@ import {
   verticalScale,
 } from '../../../utlis/Metrics';
 import HomeScreenCard from '../../../common/HomeScreenCard';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Home() {
+  const navigation = useNavigation();
   const [showBalance, setShowBalance] = useState(true);
   const [greeting, setGreeting] = useState('');
   const [currentMonth, setCurrentMonth] = useState('');
@@ -98,7 +100,9 @@ export default function Home() {
         </View>
         <TouchableOpacity
           style={{justifyContent: 'flex-end', alignSelf: 'center'}}
-          onPress={() => console.log('notification')}
+          onPress={() =>
+            navigation.navigate('DashboardStack', {Screen: 'Notification'})
+          }
           activeOpacity={0.9}>
           <Image source={IMAGES.BELL} />
         </TouchableOpacity>
