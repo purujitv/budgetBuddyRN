@@ -1,10 +1,9 @@
 import {
-  View,
-  Text,
   StyleSheet,
   Alert,
   Platform,
   PermissionsAndroid,
+  SafeAreaView,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import RootNavigator from './navigation/RootNavigator';
@@ -39,9 +38,9 @@ export default function App() {
     return unsubscribe;
   }, []);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <RootNavigator />
-    </View>
+    </SafeAreaView>
   );
 }
 

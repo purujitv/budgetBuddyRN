@@ -1,4 +1,11 @@
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import React from 'react';
 import styles from '../styles';
 import {useNavigation} from '@react-navigation/native';
@@ -14,7 +21,11 @@ export default function Login() {
       <Image
         source={IMAGES.BACKGROUND}
         resizeMode="cover"
-        style={{...StyleSheet.absoluteFillObject, width: width, height: height}}
+        style={{
+          ...StyleSheet.absoluteFillObject,
+          width: width,
+          height: height,
+        }}
       />
       <View style={styles.overlay}>
         <View
@@ -55,6 +66,7 @@ export default function Login() {
               title={'Continue'}
               backgroundColor={COLORS.PRIMARY}
               color={COLORS.WHITE}
+              width={316}
               onPress={() => navigation.navigate('Dashboard', {Screen: 'Home'})}
             />
           </View>

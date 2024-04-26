@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Income from '../screens/dashboard/Income';
@@ -8,7 +7,7 @@ const Stack = createNativeStackNavigator();
 export default function DashboardStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}}
+      screenOptions={{headerShown: true}}
       initialRouteName="Income">
       <Stack.Screen name="Income" component={Income} />
       <Stack.Screen name="Expense" component={Expense} />

@@ -38,7 +38,8 @@ export default function AppTextInput({
       {secureTextEntry && (
         <TouchableOpacity
           style={styles.toggleButton}
-          onPress={togglePasswordVisibility}>
+          onPress={togglePasswordVisibility}
+          activeOpacity={0.9}>
           <Image
             source={showPassword ? IMAGES.HIDE : IMAGES.VIEW}
             style={styles.toggleIcon}

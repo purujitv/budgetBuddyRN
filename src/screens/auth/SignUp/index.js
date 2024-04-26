@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -25,7 +26,12 @@ const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
   lastName: Yup.string().required('Last Name is required'),
   username: Yup.string().required('Username is required'),
-  password: Yup.string().required('Password is required'),
+  password: Yup.string()
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.',
+    ),
 });
 
 const SignUp = () => {
@@ -81,7 +87,7 @@ const SignUp = () => {
             <View
               style={{
                 backgroundColor: 'rgba(0, 0, 0, 0.82)',
-                padding: moderateScale(25),
+                padding: moderateScale(15),
                 borderRadius: moderateScale(20),
               }}>
               <Image source={IMAGES.LOGO} style={{alignSelf: 'center'}} />
@@ -194,6 +200,7 @@ const SignUp = () => {
                   title={'Sign Up'}
                   backgroundColor={COLORS.PRIMARY}
                   color={COLORS.WHITE}
+                  width={300}
                   onPress={formikProps.handleSubmit}
                 />
               </View>

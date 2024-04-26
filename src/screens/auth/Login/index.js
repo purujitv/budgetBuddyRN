@@ -68,7 +68,12 @@ export default function Login() {
 
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string()
+      .required('Password is required')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.'
+      ),
   });
 
   return (
