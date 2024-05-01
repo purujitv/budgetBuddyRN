@@ -4,18 +4,43 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import styles from '../styles';
 import {useNavigation} from '@react-navigation/native';
 import {COLORS, FONTS, IMAGES} from '../../../constants';
 import AppButton from '../../../common/AppButton';
 import {moderateScale, verticalScale} from '../../../utlis/Metrics';
+import {firebase} from '@react-native-firebase/auth';
 const {width, height} = Dimensions.get('window');
 
 export default function Login() {
   const navigation = useNavigation();
+  const [userUid, setUserUid] = useState(null);
+  const [idToken, setIdToken] = useState(null);
+  const handleAnonymousSignIn = () => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then(result => {
+        setUserUid(result.user.uid);
+        console.log('User UID ======>', result.user.uid);
+        result.user.getIdToken().then(token => {
+          setIdToken(token);
+          console.log('ID token:', token);
+        });
+        console.log('User signed in anonymously');
+        navigation.navigate('Dashboard', {Screen: 'Home'});
+      })
+      .catch(error => {
+        if (error.code === 'auth/operation-not-allowed') {
+          console.log('Enable anonymous in your firebase console.');
+        }
+
+        console.error(error);
+      });
+  };
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Image
@@ -67,7 +92,7 @@ export default function Login() {
               backgroundColor={COLORS.PRIMARY}
               color={COLORS.WHITE}
               width={316}
-              onPress={() => navigation.navigate('Dashboard', {Screen: 'Home'})}
+              onPress={handleAnonymousSignIn}
             />
           </View>
         </View>

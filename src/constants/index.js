@@ -21,7 +21,7 @@ export const COLORS = {
   TEXTBLACK: 'rgba(66,61,61,1)',
   TEXTGRAY: 'rgba(180,180,180,1)',
   HOMEWHITE: ' rgba(253,255,253,1)',
-  HOMECARD: 'rgba(180,180,180,1)'
+  HOMECARD: 'rgba(180,180,180,1)',
 };
 
 export const IMAGES = {
@@ -50,4 +50,13 @@ export const IMAGES = {
   HEROBG: require('../assets/images/heroBg.jpg'),
   INCOMEICON: require('../assets/images/incomeIcon.png'),
   EXPENSEICON: require('../assets/images/expenseIcon.png'),
+  HELP: require('../assets/images/help.png'),
+  HISTORY: require('../assets/images/history.png'),
+  LOCK: require('../assets/images/lock.png'),
+  NAVIGATE: require('../assets/images/navigate.png'),
+  PASSWORD: require('../assets/images/password.png'),
+  PERSON: require('../assets/images/person.png'),
+  RECEIPT: require('../assets/images/receipt.png'),
+  DIVIDER: require('../assets/images/divider.png'),
+  EDIT: require('../assets/images/edit.png'),
 };

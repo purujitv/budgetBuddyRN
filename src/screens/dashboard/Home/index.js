@@ -69,7 +69,9 @@ export default function Home() {
         paddingHorizontal: horizontalScale(10),
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <View
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={()=>navigation.navigate('Profile')}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -97,7 +99,7 @@ export default function Home() {
               Guest 56235
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity
           style={{justifyContent: 'flex-end', alignSelf: 'center'}}
           onPress={() =>

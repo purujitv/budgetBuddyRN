@@ -4,10 +4,12 @@ import {
   Platform,
   PermissionsAndroid,
   SafeAreaView,
+  View,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import RootNavigator from './navigation/RootNavigator';
 import messaging from '@react-native-firebase/messaging';
+import {COLORS} from './constants';
 
 export default function App() {
   const checkApplicationPermission = async () => {
@@ -47,5 +49,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.WHITE,
   },
 });
