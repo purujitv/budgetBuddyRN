@@ -17,7 +17,7 @@ import {moderateScale, verticalScale} from '../../../utlis/Metrics';
 import {Formik, Field} from 'formik';
 import * as Yup from 'yup';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore'; // Added import
 import {CLIENTID} from '../../../config/googleSignIn';
 
@@ -26,19 +26,6 @@ const {width, height} = Dimensions.get('window');
 export default function Login() {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState('');
-
-  const saveData = async values => {
-    try {
-      await firestore().collection('Users').add({
-        email: values.username,
-        password: values.password,
-      });
-      console.log('User added!');
-    } catch (error) {
-      console.error('Error adding user: ', error);
-      // Handle error
-    }
-  };
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -67,14 +54,27 @@ export default function Login() {
   }
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+    email: Yup.string()
+      .required('Email is required')
+      .matches(
+        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+        'Invalid email address',
+      ),
     password: Yup.string()
       .required('Password is required')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.'
+        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character.',
       ),
   });
+
+  const handleLogin = (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(res => console.log("IS Loggggggged innnnn"))
+      .catch(err => console.log(err));
+  };
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -111,11 +111,11 @@ export default function Login() {
           </View>
 
           <Formik
-            initialValues={{username: '', password: ''}}
+            initialValues={{email: '', password: ''}}
             validationSchema={validationSchema}
             onSubmit={async (values, actions) => {
               actions.resetForm(), actions.setSubmitting(false);
-              saveData(values); // Save data to Firestore
+              handleLogin(values.email, values.password);
               navigation.navigate('Dashboard', {Screen: 'Home'});
             }}>
             {formikProps => (
@@ -137,23 +137,22 @@ export default function Login() {
                   Please login to your account
                 </Text>
                 <View style={{paddingTop: 15}}>
-                  <Field name="username">
+                  <Field name="email">
                     {({field, form}) => (
                       <AppTextInput
-                        placeholder={'Enter username'}
+                        placeholder={'Enter email'}
                         placeholderTextColor={COLORS.PLACEHOLDER}
-                        onChangeText={field.onChange('username')}
-                        onBlur={field.onBlur('username')}
+                        onChangeText={field.onChange('email')}
+                        onBlur={field.onBlur('email')}
                         value={field.value}
                       />
                     )}
                   </Field>
-                  {formikProps.errors.username &&
-                    formikProps.touched.username && (
-                      <Text style={{color: 'red', paddingTop: 5}}>
-                        {formikProps.errors.username}
-                      </Text>
-                    )}
+                  {formikProps.errors.email && formikProps.touched.email && (
+                    <Text style={{color: 'red', paddingTop: 5}}>
+                      {formikProps.errors.email}
+                    </Text>
+                  )}
                 </View>
                 <View style={{paddingTop: 10}}>
                   <Field name="password">
@@ -201,7 +200,7 @@ export default function Login() {
 
           <View>
             <TouchableOpacity
-              onPress={() => console.log('Forgot Password?')}
+              onPress={() => navigation.navigate("ForgotPassword")}
               activeOpacity={0.9}>
               <Text
                 style={{

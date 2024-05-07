@@ -14,18 +14,25 @@ import * as Yup from 'yup';
 import styles from '../styles';
 import {useNavigation} from '@react-navigation/native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import auth, {firebase} from '@react-native-firebase/auth';
 import {moderateScale, verticalScale} from '../../../utlis/Metrics';
 import {COLORS, FONTS, IMAGES} from '../../../constants';
 import {CLIENTID} from '../../../config/googleSignIn';
 import AppTextInput from '../../../common/AppTextInput';
 import AppButton from '../../../common/AppButton';
+import firestore from '@react-native-firebase/firestore';
+
 const {width, height} = Dimensions.get('window');
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
   lastName: Yup.string().required('Last Name is required'),
-  username: Yup.string().required('Username is required'),
+  email: Yup.string()
+    .required('Email is required')
+    .matches(
+      /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+      'Invalid email address',
+    ),
   password: Yup.string()
     .required('Password is required')
     .matches(
@@ -34,7 +41,20 @@ const validationSchema = Yup.object().shape({
     ),
 });
 
-const SignUp = () => {
+export default function SignUp () {
+  const saveUserDataToFirestore = (userId, userData) => {
+    return firestore()
+      .collection('users')
+      .doc(userId)
+      .set(userData)
+      .then(() => {
+        console.log('User data saved successfully');
+      })
+      .catch(error => {
+        console.error('Error saving user data: ', error);
+      });
+  };
+
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState('');
 
@@ -64,11 +84,34 @@ const SignUp = () => {
     }
   }
 
+  const singUp = async (email, password, userData) => {
+    try {
+      const userCredential = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      if (userCredential.user) {
+        await saveUserDataToFirestore(userCredential.user.uid, userData);
+        console.log('User created and data saved successfully');
+      }
+    } catch (error) {
+      console.error('Error creating user: ', error);
+    }
+  };
+
   return (
     <Formik
-      initialValues={{firstName: '', lastName: '', username: '', password: ''}}
+      initialValues={{
+        email: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+      }}
       validationSchema={validationSchema}
       onSubmit={values => {
+        const {email, firstName, lastName, password} = values;
+        const userData = {firstName, lastName};
+        singUp(email, password, userData);
         console.log(values); // Handle form submission here
         navigation.navigate('Dashboard', {Screen: 'Home'});
       }}>
@@ -159,18 +202,17 @@ const SignUp = () => {
                 </View>
                 <View style={{paddingTop: 10}}>
                   <AppTextInput
-                    placeholder={'Enter username'}
+                    placeholder={'Enter Email'}
                     placeholderTextColor={COLORS.PLACEHOLDER}
-                    onChangeText={formikProps.handleChange('username')}
-                    onBlur={formikProps.handleBlur('username')}
-                    value={formikProps.values.username}
+                    onChangeText={formikProps.handleChange('email')}
+                    onBlur={formikProps.handleBlur('email')}
+                    value={formikProps.values.email}
                   />
-                  {formikProps.errors.username &&
-                    formikProps.touched.username && (
-                      <Text style={{color: 'red', paddingTop: 5}}>
-                        {formikProps.errors.username}
-                      </Text>
-                    )}
+                  {formikProps.errors.email && formikProps.touched.email && (
+                    <Text style={{color: 'red', paddingTop: 5}}>
+                      {formikProps.errors.email}
+                    </Text>
+                  )}
                 </View>
                 <View style={{paddingTop: 10}}>
                   <AppTextInput
@@ -267,4 +309,3 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;

@@ -8,6 +8,7 @@ import {
 } from '../../../utlis/Metrics';
 import HomeScreenCard from '../../../common/HomeScreenCard';
 import {useNavigation} from '@react-navigation/native';
+import {firebase} from '@react-native-firebase/auth';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -61,6 +62,20 @@ export default function Home() {
     setShowBalance(!showBalance);
   };
 
+  const generateRandomUsername = () => {
+    const adjectives = ['Happy', 'Funny', 'Silly', 'Clever', 'Brave', 'Lucky'];
+    const nouns = ['Cat', 'Dog', 'Bird', 'Fish', 'Mouse', 'Turtle'];
+    const randomAdjective =
+      adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    return `${randomAdjective}${randomNoun}`;
+  };
+
+  // const userName =
+  //   firebase.auth().currentUser.isAnonymous == false
+  //     ? firebase.auth().currentUser.displayName
+  //     : generateRandomUsername();
+
   return (
     <View
       style={{
@@ -71,7 +86,7 @@ export default function Home() {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={()=>navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('Profile')}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -79,7 +94,10 @@ export default function Home() {
             alignSelf: 'center',
           }}>
           <View>
-            <Image source={IMAGES.DP} />
+            <Image
+              source={IMAGES.DP}
+              style={{height: 42, width: 42, borderRadius: 42 / 2}}
+            />
           </View>
           <View>
             <Text
@@ -96,7 +114,7 @@ export default function Home() {
                 fontSize: moderateScale(18),
                 color: COLORS.BLACK,
               }}>
-              Guest 56235
+              userName
             </Text>
           </View>
         </TouchableOpacity>

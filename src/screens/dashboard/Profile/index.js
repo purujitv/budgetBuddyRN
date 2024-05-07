@@ -1,5 +1,5 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS, FONTS, IMAGES} from '../../../constants';
 import {moderateScale} from '../../../utlis/Metrics';
 import ProfileList from '../../../common/ProfileList';
@@ -17,6 +17,21 @@ export default function Profile() {
       .signOut()
       .then(() => console.log('User Signed Out'), navigation.navigate('Login'));
   };
+
+  const generateRandomUsername = () => {
+    const adjectives = ['Happy', 'Funny', 'Silly', 'Clever', 'Brave', 'Lucky'];
+    const nouns = ['Cat', 'Dog', 'Bird', 'Fish', 'Mouse', 'Turtle'];
+    const randomAdjective =
+      adjectives[Math.floor(Math.random() * adjectives.length)];
+    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    return `${randomAdjective}${randomNoun}`;
+  };
+
+  // const userName =
+  //   firebase.auth().currentUser.isAnonymous == false && null
+  //     ? firebase.auth().currentUser.displayName
+  //     : generateRandomUsername();
+
   return (
     <View style={styles.container}>
       <Image
@@ -55,12 +70,14 @@ export default function Profile() {
             <View style={{padding: 10, alignItems: 'center'}}>
               <Text
                 style={{fontSize: moderateScale(24), fontFamily: FONTS.w800}}>
-                Guest 56235
+                {/* {userName} */} UserName
               </Text>
-              <Text
+              {/* <Text
                 style={{fontSize: moderateScale(16), fontFamily: FONTS.w700}}>
-                guestlogin
-              </Text>
+                {firebase.auth().currentUser.email
+                  ? firebase.auth().currentUser.email
+                  : 'guestLogin'}
+              </Text> */}
             </View>
             <View>
               <Image source={IMAGES.DIVIDER} />
@@ -72,7 +89,15 @@ export default function Profile() {
               </Text>
               <ProfileList icon={IMAGES.PERSON} title={'Profile Settings'} />
               <Divider style={{padding: 5}} />
-              <ProfileList icon={IMAGES.PASSWORD} title={'Change Password'} />
+              <ProfileList
+                icon={IMAGES.PASSWORD}
+                title={'Change Password'}
+                onPress={() =>
+                  navigation.navigate('DashboardStack', {
+                    Screen: 'ChangePasssword',
+                  })
+                }
+              />
               <Divider style={{padding: 5}} />
               <ProfileList
                 icon={IMAGES.HISTORY}

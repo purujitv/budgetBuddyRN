@@ -14,7 +14,7 @@ import {moderateScale, verticalScale} from '../../../utlis/Metrics';
 import {firebase} from '@react-native-firebase/auth';
 const {width, height} = Dimensions.get('window');
 
-export default function Login() {
+export default function GuestLogin() {
   const navigation = useNavigation();
   const [userUid, setUserUid] = useState(null);
   const [idToken, setIdToken] = useState(null);

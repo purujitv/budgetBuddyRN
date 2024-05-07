@@ -59,4 +59,6 @@ export const IMAGES = {
   RECEIPT: require('../assets/images/receipt.png'),
   DIVIDER: require('../assets/images/divider.png'),
   EDIT: require('../assets/images/edit.png'),
+  CHANGEPASSWORD: require('../assets/images/changePassword.png'),
+  BACKNAVIGATION: require('../assets/images/backNavigation.png'),
 };

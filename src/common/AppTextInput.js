@@ -17,6 +17,8 @@ export default function AppTextInput({
   onChangeText,
   placeholderTextColor,
   onBlur,
+  borderColor,
+  color,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -25,11 +27,15 @@ export default function AppTextInput({
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        borderColor: borderColor ? borderColor : COLORS.WHITE,
+      }}>
       <TextInput
         placeholder={placeholder}
         placeholderTextColor={placeholderTextColor}
-        style={styles.textInput}
+        style={{...styles.textInput, color: color ? color : COLORS.WHITE}}
         secureTextEntry={!showPassword ? secureTextEntry : false}
         value={value}
         onChangeText={onChangeText}
@@ -55,13 +61,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: moderateScale(1),
-    borderColor: COLORS.WHITE,
   },
   textInput: {
     flex: 1,
     fontSize: moderateScale(15),
     fontFamily: FONTS.w600,
-    color: COLORS.WHITE,
     paddingVertical: moderateScale(10),
   },
   toggleButton: {
